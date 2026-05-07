@@ -8,6 +8,8 @@ option(DLMS_BUILD_TESTS "Build GoogleTest tests" ON)
 option(DLMS_USE_SYSTEM_GTEST "Use system-installed GoogleTest" OFF)
 
 add_library(dlms_security
+  src/security/in_memory_invocation_counter_store.cpp
+  src/security/in_memory_key_store.cpp
   src/security/security_status.cpp
   src/security/security_types.cpp)
 
