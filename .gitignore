@@ -1,0 +1,4 @@
+/build/
+/build-mingw64/
+*.user
+*.swp
