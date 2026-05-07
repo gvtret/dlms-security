@@ -7,12 +7,14 @@ project(dlms_security
 option(DLMS_BUILD_TESTS "Build GoogleTest tests" ON)
 option(DLMS_USE_SYSTEM_GTEST "Use system-installed GoogleTest" OFF)
 
-add_library(dlms_security INTERFACE)
+add_library(dlms_security
+  src/security/security_status.cpp
+  src/security/security_types.cpp)
 
-target_compile_features(dlms_security INTERFACE cxx_std_11)
+target_compile_features(dlms_security PUBLIC cxx_std_11)
 
 target_include_directories(dlms_security
-  INTERFACE
+  PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 set(DLMS_SECURITY_HAS_API ON CACHE INTERNAL
