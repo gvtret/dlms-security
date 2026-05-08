@@ -8,6 +8,7 @@ option(DLMS_BUILD_TESTS "Build GoogleTest tests" ON)
 option(DLMS_USE_SYSTEM_GTEST "Use system-installed GoogleTest" OFF)
 
 add_library(dlms_security
+  src/security/ciphered_apdu_processor.cpp
   src/security/in_memory_invocation_counter_store.cpp
   src/security/in_memory_key_store.cpp
   src/security/suite0_aes_gcm.cpp

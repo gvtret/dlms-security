@@ -43,6 +43,7 @@ correctly.
 - protects and unprotects a Suite 0 APDU vector;
 - rejects modified authentication tag;
 - rejects replayed invocation counter;
+- does not advance remote replay state on failed authentication;
 - preserves opaque APDU payload bytes.
 
 ### HLS GMAC

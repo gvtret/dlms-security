@@ -51,7 +51,6 @@ struct SecurityContext
 {
   SecuritySuite suite;
   SecurityPolicy policy;
-  SecurityControl securityControl;
   SecurityRole role;
   std::uint16_t clientSap;
   std::uint16_t serverSap;
@@ -61,6 +60,7 @@ struct SecurityContext
 ```
 
 The context is immutable during a single APDU protect/unprotect operation.
+The processor derives the Suite 0 security-control byte from `SecurityPolicy`.
 
 ## 4. Key Store
 
@@ -132,6 +132,23 @@ public:
 ```
 
 The processor treats APDUs as opaque bytes.
+
+The first implementation supports:
+
+- `None` as pass-through;
+- Suite 0 `AuthenticatedAndEncrypted`;
+- explicit `UnsupportedFeature` for standalone `Authenticated` and
+  `Encrypted` policies until their COSEM mapping is implemented.
+
+The protected byte body owned by this layer is:
+
+```text
+security-control(1) || invocation-counter(4, big endian) ||
+ciphertext(N) || authentication-tag(16)
+```
+
+xDLMS and association layers are responsible for wrapping that body in the
+proper protocol APDU tag.
 
 ## 8. HLS GMAC Authenticator
 

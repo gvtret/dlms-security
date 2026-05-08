@@ -52,7 +52,6 @@ classDiagram
   class SecurityContext {
     +SecuritySuite suite
     +SecurityPolicy policy
-    +SecurityControl securityControl
     +uint8_t localSystemTitle[8]
     +uint8_t remoteSystemTitle[8]
   }
@@ -156,7 +155,21 @@ The layer converts all validation and cryptographic failures to
 Key material and plaintext APDUs must not be emitted through status names,
 logging, or diagnostic strings.
 
-## 8. Test Strategy
+## 8. Protected APDU Body
+
+`CipheredApduProcessor` owns only the security body:
+
+```text
+security-control(1) || invocation-counter(4, big endian) ||
+ciphertext(N) || authentication-tag(16)
+```
+
+For Suite 0 `AuthenticatedAndEncrypted`, the nonce is
+`system-title(8) || invocation-counter(4)`. Protection uses the local system
+title and `NextLocal`; unprotection uses the remote system title and accepts
+the remote invocation counter only after successful authentication.
+
+## 9. Test Strategy
 
 Tests shall focus on:
 

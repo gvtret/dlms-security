@@ -10,6 +10,7 @@ elseif(NOT TARGET GTest::gtest_main)
 endif()
 
 add_executable(dlms_security_tests
+  security/test_ciphered_apdu_processor.cpp
   security/test_invocation_counter_store.cpp
   security/test_key_store.cpp
   security/test_suite0_aes_gcm.cpp
