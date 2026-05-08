@@ -147,7 +147,20 @@ sequenceDiagram
   HLS-->>Association: GMAC response
 ```
 
-## 7. Error Model
+## 7. HLS GMAC Response Body
+
+The HLS GMAC response body owned by this layer is:
+
+```text
+security-control(1, GMAC/authentication) || invocation-counter(4, big endian) ||
+gmac-tag(16)
+```
+
+The association layer owns challenge exchange sequencing and user credential
+selection. `dlms-security` owns challenge byte generation, response tag
+construction, response verification, and replay counter acceptance.
+
+## 8. Error Model
 
 The layer converts all validation and cryptographic failures to
 `SecurityStatus`. Runtime exceptions are not part of the public API.
@@ -155,7 +168,7 @@ The layer converts all validation and cryptographic failures to
 Key material and plaintext APDUs must not be emitted through status names,
 logging, or diagnostic strings.
 
-## 8. Protected APDU Body
+## 9. Protected APDU Body
 
 `CipheredApduProcessor` owns only the security body:
 
@@ -169,7 +182,7 @@ For Suite 0 `AuthenticatedAndEncrypted`, the nonce is
 title and `NextLocal`; unprotection uses the remote system title and accepts
 the remote invocation counter only after successful authentication.
 
-## 9. Test Strategy
+## 10. Test Strategy
 
 Tests shall focus on:
 

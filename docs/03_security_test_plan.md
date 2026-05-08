@@ -51,7 +51,8 @@ correctly.
 - builds deterministic challenge with fake random source;
 - builds expected GMAC response from a fixed vector;
 - verifies expected response;
-- rejects modified response.
+- rejects modified response;
+- rejects replayed response.
 
 ## 3. Root Integration Tests
 

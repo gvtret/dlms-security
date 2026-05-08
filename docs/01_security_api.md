@@ -156,6 +156,9 @@ proper protocol APDU tag.
 class HlsGmacAuthenticator
 {
 public:
+  static const std::size_t kChallengeSize = 16u;
+  static const std::size_t kResponseTagSize = 16u;
+
   HlsGmacAuthenticator(
     const SecurityContext& context,
     const IKeyStore& keys,
@@ -173,6 +176,17 @@ public:
     SecurityByteView response);
 };
 ```
+
+The first response body format is:
+
+```text
+security-control(1, GMAC/authentication) || invocation-counter(4, big endian) ||
+gmac-tag(16)
+```
+
+`BuildResponse` uses the local system title and `NextLocal`.
+`VerifyResponse` uses the remote system title and accepts the remote invocation
+counter only after the GMAC tag has been verified.
 
 ## 9. C ABI
 
