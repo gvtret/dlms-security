@@ -7,6 +7,8 @@ project(dlms_security
 option(DLMS_BUILD_TESTS "Build GoogleTest tests" ON)
 option(DLMS_USE_SYSTEM_GTEST "Use system-installed GoogleTest" OFF)
 
+find_package(OpenSSL REQUIRED)
+
 add_library(dlms_security
   src/security/ciphered_apdu_processor.cpp
   src/security/hls_gmac_authenticator.cpp
@@ -22,11 +24,9 @@ target_include_directories(dlms_security
   PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-if(WIN32)
-  target_link_libraries(dlms_security
-    PUBLIC
-      bcrypt)
-endif()
+target_link_libraries(dlms_security
+  PUBLIC
+    OpenSSL::Crypto)
 
 set(DLMS_SECURITY_HAS_API ON CACHE INTERNAL
   "dlms-security exposes the security API required by upper-layer integration tests")
