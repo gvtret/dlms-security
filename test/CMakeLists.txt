@@ -11,6 +11,7 @@ endif()
 
 add_executable(dlms_security_tests
   security/test_ciphered_apdu_processor.cpp
+  security/test_hls_high_authenticator.cpp
   security/test_hls_gmac_authenticator.cpp
   security/test_invocation_counter_store.cpp
   security/test_key_store.cpp
