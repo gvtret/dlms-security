@@ -150,7 +150,40 @@ ciphertext(N) || authentication-tag(16)
 xDLMS and association layers are responsible for wrapping that body in the
 proper protocol APDU tag.
 
-## 8. HLS GMAC Authenticator
+## 8. HLS High Authenticator
+
+`HlsHighAuthenticator` models the password-based COSEM HLS mechanism id `2`.
+It is separate from GMAC and does not use system titles, keys, or invocation
+counters.
+
+```cpp
+class HlsHighAuthenticator
+{
+public:
+  static const std::size_t kChallengeSize = 16u;
+
+  HlsHighAuthenticator(
+    SecurityByteView password,
+    IRandomSource& random);
+
+  SecurityStatus BuildChallenge(std::vector<std::uint8_t>& challenge);
+
+  SecurityStatus BuildResponse(
+    SecurityByteView challenge,
+    std::vector<std::uint8_t>& response) const;
+
+  SecurityStatus VerifyResponse(
+    SecurityByteView challenge,
+    SecurityByteView response) const;
+};
+```
+
+`BuildChallenge` produces the client-to-server random challenge for AARQ.
+`BuildResponse` applies the legacy HLS High AES-1 transform to the remote
+challenge using the configured password bytes. `VerifyResponse` applies the
+same transform to the local challenge and compares the server response.
+
+## 9. HLS GMAC Authenticator
 
 ```cpp
 class HlsGmacAuthenticator
@@ -188,7 +221,7 @@ gmac-tag(16)
 `VerifyResponse` uses the remote system title and accepts the remote invocation
 counter only after the GMAC tag has been verified.
 
-## 9. C ABI
+## 10. C ABI
 
 C ABI is explicitly deferred. The first implementation shall stabilize the C++
 API and test vectors before adding C wrappers.
